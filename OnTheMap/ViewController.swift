@@ -26,31 +26,63 @@ class ViewController: UIViewController {
 
     @IBAction func signup(_ sender: Any) {
         guard let url = URL(string: "https://www.udacity.com/account/auth#!/signup") else {
-            print("could not open the website")
+            self.dispalyError("could not open the website")
             return
         }
         UIApplication.shared.open(url, options: [:], completionHandler: nil)
     }
     
     @IBAction func loginPressed(_ sender: Any) {
-        
+
         var request = URLRequest(url: URL(string: "https://onthemap-api.udacity.com/v1/session")!)
         request.httpMethod = "POST"
         request.addValue("application/json", forHTTPHeaderField: "Accept")
         request.addValue("application/json", forHTTPHeaderField: "Content-Type")
-        // encoding a JSON body from a string, can also use a Codable struct
-        request.httpBody = "{\"udacity\": {\"username\": \"\(emailTextField.text)\", \"password\": \"\(passwordTextField.text)\"}}".data(using: .utf8)
-        let session = URLSession.shared
-        let task = session.dataTask(with: request) { data, response, error in
-            if error != nil { // Handle error…
+        request.httpBody = "{\"udacity\": {\"username\": \"\(emailTextField.text!)\", \"password\": \"\(passwordTextField.text!)\"}}".data(using: .utf8)
+        
+        let task = URLSession.shared.dataTask(with: request as URLRequest) { data, response, error in
+            guard (error == nil) else {
+                //completionHandlerForAuth(false, error?.localizedDescription)
                 return
             }
-            let range = Range(5..<data!.count)
-            let newData = data?.subdata(in: range) /* subset response data! */
-            print(String(data: newData!, encoding: .utf8)!)
+
+                guard let data = data else {
+                    self.dispalyError("there is no data")
+                    return
+                }
+                guard let status = (response as? HTTPURLResponse)?.statusCode, status >= 200 && status <= 399 else {
+                    self.dispalyError("the status code > 2xx")
+                    return
+                }
+            let range = Range(5..<data.count)
+            let newData = data.subdata(in: range) /* subset response data! */
+
+            do {
+                let decoder = JSONDecoder()
+                let dataDecoded = try decoder.decode(loginResponse.self, from: newData)
+                let accountID = dataDecoded.account.key
+                let accountRegister = dataDecoded.account.registered
+                let sessionID = dataDecoded.session.id
+                let sessionExpire = dataDecoded.session.expiration
+                print(":: Authentication Information ::")
+                print("--------------------------")
+                print("The account ID: \(String(describing: accountID!))")
+                print("The account Registered: \(String(describing: accountRegister!))")
+                print("The session ID: \(String(describing: sessionID!))")
+                print("The seesion expire: \(String(describing: sessionExpire!))")
+                print("--------------------------\n")
+            } catch let error {
+                self.dispalyError("could not decode data \(error.localizedDescription)")
+                return
+            }
+            print("The login is done successfuly!")
         }
         task.resume()
-        print("login successfuly")
+        
+    }
+    
+    private func dispalyError(_ error: String){
+        print(error)
     }
 }
 
