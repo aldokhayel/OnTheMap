@@ -29,7 +29,6 @@ class LoginViewController: UIViewController {
         fieldsChecker()
         API.login(emailTextField.text!, passwordTextField.text!) {(successful, error) in
             DispatchQueue.main.async {
-                
                 // for any error not expeceted
                 if let error = error {
                     print(error.localizedDescription)
@@ -41,7 +40,7 @@ class LoginViewController: UIViewController {
                 }
                 
                 // for invalid email or password
-                if !successful {
+                if successful {
                     let invalidAccessAlert = UIAlertController(title: "Invalid Access", message: "Invalid email or password", preferredStyle: .alert)
                     invalidAccessAlert.addAction(UIAlertAction(title: "OK", style: .default, handler: {_ in
                         return
@@ -49,7 +48,7 @@ class LoginViewController: UIViewController {
                     self.present(invalidAccessAlert, animated: true, completion: nil)
                 } else {
                 // move to next storyboard
-                let mapVC = self.storyboard?.instantiateViewController(withIdentifier: "MapViewController") as! MapViewController
+                let mapVC = self.storyboard?.instantiateViewController(withIdentifier: "TabBarController") as! UITabBarController
                 self.navigationController!.pushViewController(mapVC, animated: true)
                 }
             }

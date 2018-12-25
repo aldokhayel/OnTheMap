@@ -15,6 +15,8 @@
 		B4672FDC21CE0C2800ED11A2 /* Authentication.swift in Sources */ = {isa = PBXBuildFile; fileRef = B4672FDB21CE0C2800ED11A2 /* Authentication.swift */; };
 		B4672FDE21D0A54800ED11A2 /* MapViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B4672FDD21D0A54800ED11A2 /* MapViewController.swift */; };
 		B4672FE021D0B36F00ED11A2 /* API.swift in Sources */ = {isa = PBXBuildFile; fileRef = B4672FDF21D0B36F00ED11A2 /* API.swift */; };
+		B4672FE321D0D95200ED11A2 /* StudentsLocations.swift in Sources */ = {isa = PBXBuildFile; fileRef = B4672FE221D0D95200ED11A2 /* StudentsLocations.swift */; };
+		B4672FE721D22DF900ED11A2 /* StudentsTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B4672FE621D22DF900ED11A2 /* StudentsTableViewController.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -28,6 +30,8 @@
 		B4672FDB21CE0C2800ED11A2 /* Authentication.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Authentication.swift; sourceTree = "<group>"; };
 		B4672FDD21D0A54800ED11A2 /* MapViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapViewController.swift; sourceTree = "<group>"; };
 		B4672FDF21D0B36F00ED11A2 /* API.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = API.swift; sourceTree = "<group>"; };
+		B4672FE221D0D95200ED11A2 /* StudentsLocations.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StudentsLocations.swift; sourceTree = "<group>"; };
+		B4672FE621D22DF900ED11A2 /* StudentsTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StudentsTableViewController.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -60,17 +64,27 @@
 		B4672FC821CD826B00ED11A2 /* OnTheMap */ = {
 			isa = PBXGroup;
 			children = (
+				B4672FE121D0D93600ED11A2 /* JSON */,
 				B4672FC921CD826B00ED11A2 /* AppDelegate.swift */,
 				B4672FCB21CD826B00ED11A2 /* LoginViewController.swift */,
+				B4672FDD21D0A54800ED11A2 /* MapViewController.swift */,
+				B4672FE621D22DF900ED11A2 /* StudentsTableViewController.swift */,
+				B4672FDF21D0B36F00ED11A2 /* API.swift */,
 				B4672FCD21CD826B00ED11A2 /* Main.storyboard */,
 				B4672FD021CD826D00ED11A2 /* Assets.xcassets */,
 				B4672FD221CD826D00ED11A2 /* LaunchScreen.storyboard */,
 				B4672FD521CD826D00ED11A2 /* Info.plist */,
-				B4672FDB21CE0C2800ED11A2 /* Authentication.swift */,
-				B4672FDD21D0A54800ED11A2 /* MapViewController.swift */,
-				B4672FDF21D0B36F00ED11A2 /* API.swift */,
 			);
 			path = OnTheMap;
+			sourceTree = "<group>";
+		};
+		B4672FE121D0D93600ED11A2 /* JSON */ = {
+			isa = PBXGroup;
+			children = (
+				B4672FDB21CE0C2800ED11A2 /* Authentication.swift */,
+				B4672FE221D0D95200ED11A2 /* StudentsLocations.swift */,
+			);
+			path = JSON;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -146,8 +160,10 @@
 			files = (
 				B4672FCC21CD826B00ED11A2 /* LoginViewController.swift in Sources */,
 				B4672FCA21CD826B00ED11A2 /* AppDelegate.swift in Sources */,
+				B4672FE321D0D95200ED11A2 /* StudentsLocations.swift in Sources */,
 				B4672FDC21CE0C2800ED11A2 /* Authentication.swift in Sources */,
 				B4672FDE21D0A54800ED11A2 /* MapViewController.swift in Sources */,
+				B4672FE721D22DF900ED11A2 /* StudentsTableViewController.swift in Sources */,
 				B4672FE021D0B36F00ED11A2 /* API.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

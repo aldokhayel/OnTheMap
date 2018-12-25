@@ -71,4 +71,64 @@ class API {
         print(error)
     }
     
+    static func getStudentsLocations(completion: @escaping ([Results]?, Error?)->()){
+        
+        let urlString = "https://parse.udacity.com/parse/classes/StudentLocation"
+        let url = URL(string: urlString)
+        var request = URLRequest(url: url!)
+        request.addValue("QrX47CA9cyuGewLdsL7o5Eb8iug6Em8ye0dnAbIr", forHTTPHeaderField: "X-Parse-Application-Id")
+        request.addValue("QuWThTdiRmTux3YaDseUSEpUKo7aBYM737yKd4gY", forHTTPHeaderField: "X-Parse-REST-API-Key")
+        let session = URLSession.shared
+        let task = session.dataTask(with: request) { data, response, error in
+            if error != nil { // Handle error
+                completion(nil, error)
+                return
+            }
+            guard let data = data else {
+                print("data issue")
+                completion(nil, error)
+                return
+            }
+            guard let status = (response as? HTTPURLResponse)?.statusCode, status >= 200 && status <= 399 else {
+                print("response error")
+                completion(nil, error)
+                return
+            }
+            do {
+                let decoder = JSONDecoder()
+                let decodedData = try decoder.decode(result.self, from: data)
+                completion(decodedData.results, nil)
+
+//                var i = 0
+//                for student in decodedData.results{
+//                    i = i + 1
+//                    let createdAt = student.createdAt
+//                    let firstName = student.firstName
+//                    let lastName = student.lastName
+//                    let latitude = student.latitude
+//                    let longitude = student.longitude
+//                    let mapString = student.mapString
+//                    let mediaURL = student.mediaURL
+//                    let objectId = student.objectId
+//                    print(":: Student Location \((i)) ::")
+//                    print("createdAt: \(createdAt)")
+//                    print("firstName: \(firstName)")
+//                    print("lastName: \(lastName)")
+//                    print("latitude: \(latitude)")
+//                    print("longitude: \(longitude)")
+//                    print("mapString: \(mapString)")
+//                    print("mediaURL: \(mediaURL)")
+//                    print("objectId: \(objectId)")
+//                    print("-------------------")
+//                }
+            } catch let error {
+                print("there is error in decoding data\n")
+                print(error.localizedDescription)
+            }
+            //print(String(data: data, encoding: .utf8)!)
+        }
+        task.resume()
+        
+    }
+    
 }
