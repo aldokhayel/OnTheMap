@@ -133,19 +133,21 @@
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <mapView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" misplaced="YES" mapType="standard" translatesAutoresizingMaskIntoConstraints="NO" id="WUi-ON-tb6">
+                            <mapView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" mapType="standard" translatesAutoresizingMaskIntoConstraints="NO" id="WUi-ON-tb6">
                                 <rect key="frame" x="0.0" y="0.0" width="375" height="618"/>
                                 <constraints>
-                                    <constraint firstAttribute="height" constant="667" id="fkM-Qv-HSi"/>
+                                    <constraint firstAttribute="height" constant="618" id="opk-n8-xC2"/>
                                 </constraints>
                             </mapView>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <constraints>
-                            <constraint firstItem="WUi-ON-tb6" firstAttribute="bottom" secondItem="Mq0-0A-3Pl" secondAttribute="bottom" id="DzH-qJ-g6Q"/>
+                            <constraint firstItem="WUi-ON-tb6" firstAttribute="top" secondItem="wJX-Bw-to4" secondAttribute="top" id="8bf-mu-iEE"/>
                             <constraint firstItem="WUi-ON-tb6" firstAttribute="trailing" secondItem="Mq0-0A-3Pl" secondAttribute="trailing" id="NuK-Hd-Fg1"/>
-                            <constraint firstItem="WUi-ON-tb6" firstAttribute="top" secondItem="wJX-Bw-to4" secondAttribute="top" id="TgI-SZ-SDe"/>
+                            <constraint firstItem="WUi-ON-tb6" firstAttribute="bottom" secondItem="Mq0-0A-3Pl" secondAttribute="bottom" id="eUS-Bz-8wJ"/>
+                            <constraint firstItem="WUi-ON-tb6" firstAttribute="trailing" secondItem="Mq0-0A-3Pl" secondAttribute="trailing" id="jnl-hX-c0d"/>
                             <constraint firstItem="WUi-ON-tb6" firstAttribute="leading" secondItem="Mq0-0A-3Pl" secondAttribute="leading" id="kDK-Ld-kDb"/>
+                            <constraint firstItem="WUi-ON-tb6" firstAttribute="leading" secondItem="Mq0-0A-3Pl" secondAttribute="leading" id="uSg-sA-3Os"/>
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="Mq0-0A-3Pl"/>
                     </view>
@@ -159,7 +161,7 @@
             </objects>
             <point key="canvasLocation" x="2742" y="8"/>
         </scene>
-        <!--Root View Controller-->
+        <!--Student Location-->
         <scene sceneID="uW9-WU-cRD">
             <objects>
                 <tableViewController id="j3O-Ag-R6L" customClass="StudentsTableViewController" customModule="OnTheMap" customModuleProvider="target" sceneMemberID="viewController">
@@ -182,7 +184,7 @@
                             <outlet property="delegate" destination="j3O-Ag-R6L" id="LPP-aE-p19"/>
                         </connections>
                     </tableView>
-                    <navigationItem key="navigationItem" title="Root View Controller" id="My2-bt-9ha"/>
+                    <navigationItem key="navigationItem" title="Student Location" id="My2-bt-9ha"/>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="RWc-g0-pcO" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
