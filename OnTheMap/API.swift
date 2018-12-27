@@ -71,7 +71,7 @@ class API {
         print(error)
     }
     
-    static func getStudentsLocations(completion: @escaping ([Results]?, Error?)->()){
+    static func getStudentsLocations(completion: @escaping ([StudentLocation]?, Error?)->()){
         
         let urlString = "https://parse.udacity.com/parse/classes/StudentLocation"
         let url = URL(string: urlString)
@@ -96,11 +96,10 @@ class API {
             }
             do {
                 let decoder = JSONDecoder()
-                let decodedData = try decoder.decode(result.self, from: data)
-                completion(decodedData.results, nil)
-
+                let result = try! decoder.decode(Result.self, from: data)
+                completion(result.results, nil)
 //                var i = 0
-//                for student in decodedData.results{
+//                for student in result.results!{
 //                    i = i + 1
 //                    let createdAt = student.createdAt
 //                    let firstName = student.firstName

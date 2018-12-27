@@ -9,19 +9,19 @@
 import Foundation
 import UIKit
 
-struct result: Codable {
-    let results: [Results]
+struct Result: Codable {
+    let results: [StudentLocation]?
 }
 
-struct Results: Codable {
-    let createdAt: String
-    let firstName: String
-    let lastName: String
-    let latitude: Double
-    let longitude: Double
-    let mapString: String
-    let mediaURL: String
-    let objectId: String
-    let uniqueKey: String
-    let updatedAt: String
+struct StudentLocation: Codable {
+    let createdAt : String?
+    let firstName : String?
+    let lastName : String?
+    let latitude : Double?
+    let longitude : Double?
+    let mapString : String?
+    let mediaURL : String?
+    let objectId : String?
+    let uniqueKey : String?
+    let updatedAt : String?
 }
