@@ -31,6 +31,7 @@ class MapViewController: UIViewController, MKMapViewDelegate {
                     return 
                 }
                 
+                StudentLocation.lastFetched = result
                 var map = [MKPointAnnotation]()
 
                 for location in result! {

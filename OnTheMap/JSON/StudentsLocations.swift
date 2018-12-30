@@ -14,6 +14,8 @@ struct Result: Codable {
 }
 
 struct StudentLocation: Codable {
+    static var lastFetched: [StudentLocation]?
+    
     let createdAt : String?
     let firstName : String?
     let lastName : String?

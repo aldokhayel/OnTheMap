@@ -17,6 +17,8 @@
 		B4672FE021D0B36F00ED11A2 /* API.swift in Sources */ = {isa = PBXBuildFile; fileRef = B4672FDF21D0B36F00ED11A2 /* API.swift */; };
 		B4672FE321D0D95200ED11A2 /* StudentsLocations.swift in Sources */ = {isa = PBXBuildFile; fileRef = B4672FE221D0D95200ED11A2 /* StudentsLocations.swift */; };
 		B4672FE721D22DF900ED11A2 /* StudentsTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B4672FE621D22DF900ED11A2 /* StudentsTableViewController.swift */; };
+		B4672FE921D4C50700ED11A2 /* TestingTVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = B4672FE821D4C50700ED11A2 /* TestingTVC.swift */; };
+		B4672FEB21D4CA2C00ED11A2 /* DataViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = B4672FEA21D4CA2C00ED11A2 /* DataViewCell.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -32,6 +34,8 @@
 		B4672FDF21D0B36F00ED11A2 /* API.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = API.swift; sourceTree = "<group>"; };
 		B4672FE221D0D95200ED11A2 /* StudentsLocations.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StudentsLocations.swift; sourceTree = "<group>"; };
 		B4672FE621D22DF900ED11A2 /* StudentsTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StudentsTableViewController.swift; sourceTree = "<group>"; };
+		B4672FE821D4C50700ED11A2 /* TestingTVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TestingTVC.swift; sourceTree = "<group>"; };
+		B4672FEA21D4CA2C00ED11A2 /* DataViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataViewCell.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -74,6 +78,8 @@
 				B4672FD021CD826D00ED11A2 /* Assets.xcassets */,
 				B4672FD221CD826D00ED11A2 /* LaunchScreen.storyboard */,
 				B4672FD521CD826D00ED11A2 /* Info.plist */,
+				B4672FE821D4C50700ED11A2 /* TestingTVC.swift */,
+				B4672FEA21D4CA2C00ED11A2 /* DataViewCell.swift */,
 			);
 			path = OnTheMap;
 			sourceTree = "<group>";
@@ -160,10 +166,12 @@
 			files = (
 				B4672FCC21CD826B00ED11A2 /* LoginViewController.swift in Sources */,
 				B4672FCA21CD826B00ED11A2 /* AppDelegate.swift in Sources */,
+				B4672FEB21D4CA2C00ED11A2 /* DataViewCell.swift in Sources */,
 				B4672FE321D0D95200ED11A2 /* StudentsLocations.swift in Sources */,
 				B4672FDC21CE0C2800ED11A2 /* Authentication.swift in Sources */,
 				B4672FDE21D0A54800ED11A2 /* MapViewController.swift in Sources */,
 				B4672FE721D22DF900ED11A2 /* StudentsTableViewController.swift in Sources */,
+				B4672FE921D4C50700ED11A2 /* TestingTVC.swift in Sources */,
 				B4672FE021D0B36F00ED11A2 /* API.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

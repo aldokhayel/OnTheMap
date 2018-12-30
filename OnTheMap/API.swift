@@ -98,28 +98,6 @@ class API {
                 let decoder = JSONDecoder()
                 let result = try! decoder.decode(Result.self, from: data)
                 completion(result.results, nil)
-//                var i = 0
-//                for student in result.results!{
-//                    i = i + 1
-//                    let createdAt = student.createdAt
-//                    let firstName = student.firstName
-//                    let lastName = student.lastName
-//                    let latitude = student.latitude
-//                    let longitude = student.longitude
-//                    let mapString = student.mapString
-//                    let mediaURL = student.mediaURL
-//                    let objectId = student.objectId
-//                    print(":: Student Location \((i)) ::")
-//                    print("createdAt: \(createdAt)")
-//                    print("firstName: \(firstName)")
-//                    print("lastName: \(lastName)")
-//                    print("latitude: \(latitude)")
-//                    print("longitude: \(longitude)")
-//                    print("mapString: \(mapString)")
-//                    print("mediaURL: \(mediaURL)")
-//                    print("objectId: \(objectId)")
-//                    print("-------------------")
-//                }
             } catch let error {
                 print("there is error in decoding data\n")
                 print(error.localizedDescription)
