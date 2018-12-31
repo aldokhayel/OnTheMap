@@ -9,13 +9,12 @@
 import UIKit
 import MapKit
 
-class MapViewController: UIViewController, MKMapViewDelegate {
+class MapViewController: HeaderViewController, MKMapViewDelegate {
     
     @IBOutlet weak var mapView: MKMapView!
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        // Do any additional setup after loading the view, typically from a nib.
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -35,12 +34,12 @@ class MapViewController: UIViewController, MKMapViewDelegate {
                 var map = [MKPointAnnotation]()
 
                 for location in result! {
-                    let long = CLLocationDegrees(location.longitude!)
-                    let lat = CLLocationDegrees(location.latitude!)
+                    let long = CLLocationDegrees(location.longitude ?? 0.0)
+                    let lat = CLLocationDegrees(location.latitude ?? 0.0)
                     let cords = CLLocationCoordinate2D(latitude: lat, longitude: long)
-                    let mediaURL = location.mediaURL!
-                    let firstName = location.firstName!
-                    let lastName = location.lastName!
+                    let mediaURL = location.mediaURL ?? " "
+                    let firstName = location.firstName ?? " "
+                    let lastName = location.lastName ?? " "
                     
                     let annotation = MKPointAnnotation()
                     annotation.coordinate = cords

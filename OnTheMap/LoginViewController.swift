@@ -24,6 +24,11 @@ class LoginViewController: UIViewController {
         // Do any additional setup after loading the view, typically from a nib.
     }
     
+    @objc private func addLocation(_ sender: Any){
+        let navController = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "AddLocationNavigationController") as! UINavigationController
+        present(navController, animated: true, completion: nil)
+    }
+    
     @IBAction func loginTapped(_ sender: Any){
 
         fieldsChecker()
@@ -40,7 +45,7 @@ class LoginViewController: UIViewController {
                 }
                 
                 // for invalid email or password
-                if successful {
+                if !successful {
                     let invalidAccessAlert = UIAlertController(title: "Invalid Access", message: "Invalid email or password", preferredStyle: .alert)
                     invalidAccessAlert.addAction(UIAlertAction(title: "OK", style: .default, handler: {_ in
                         return
@@ -49,7 +54,8 @@ class LoginViewController: UIViewController {
                 } else {
                 // move to next storyboard
                 let mapVC = self.storyboard?.instantiateViewController(withIdentifier: "TabBarController") as! UITabBarController
-                self.navigationController!.pushViewController(mapVC, animated: true)
+                //self.navigationController!.pushViewController(mapVC, animated: true)
+                self.present(mapVC, animated: true, completion: nil)
                 }
             }
         }

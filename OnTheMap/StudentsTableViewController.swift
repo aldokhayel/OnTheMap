@@ -8,10 +8,9 @@
 
 import UIKit
 
-class StudentsTableViewController: UIViewController {
+class StudentsTableViewController: HeaderViewController {
     
     var result = [StudentLocation]()
-    //Result.init(results: [StudentLocation]())
     @IBOutlet weak var tableView: UITableView!
     
     override func viewDidLoad() {
@@ -21,23 +20,6 @@ class StudentsTableViewController: UIViewController {
         tableView.dataSource = self
         result = StudentLocation.lastFetched ?? []
     }
-    
-//    func getLocationCount()-> Int {
-//        API.getStudentsLocations(){(result, error) in
-//            DispatchQueue.main.async {
-//                if error != nil {
-//                    print("error")
-//                    return
-//                }
-//
-//                guard result != nil else {
-//                    return
-//                }
-//            }
-//        }
-//        return result.
-//    }
-
 }
 
 extension StudentsTableViewController: UITableViewDelegate, UITableViewDataSource {
@@ -50,9 +32,10 @@ extension StudentsTableViewController: UITableViewDelegate, UITableViewDataSourc
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        
         let cell = tableView.dequeueReusableCell(withIdentifier: "DataCell") as! DataViewCell
         let student = self.result[(indexPath).row]
-        cell.name.text = student.firstName! + " " + student.lastName!
+        cell.name.text = "\(student.firstName ?? " ")  \(student.lastName ?? " ")"
         cell.mediaURL.text = student.mediaURL
         return cell
     }
