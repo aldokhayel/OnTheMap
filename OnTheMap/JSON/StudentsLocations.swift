@@ -34,3 +34,7 @@ extension StudentLocation {
         self.mediaURL = mediaURL
     }
 }
+
+enum Param: String {
+    case updatedAt
+}

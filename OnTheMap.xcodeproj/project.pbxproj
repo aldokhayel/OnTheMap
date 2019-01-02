@@ -21,6 +21,7 @@
 		B4803B2A21D8BB330098FC64 /* AddLocationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B4803B2921D8BB330098FC64 /* AddLocationViewController.swift */; };
 		B4803B2C21D8C2930098FC64 /* HeaderViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B4803B2B21D8C2930098FC64 /* HeaderViewController.swift */; };
 		B4803B2E21DA278D0098FC64 /* MapLocationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B4803B2D21DA278D0098FC64 /* MapLocationViewController.swift */; };
+		B4803B3321DBD2540098FC64 /* mapsLocationVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = B4803B3221DBD2540098FC64 /* mapsLocationVC.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -40,6 +41,7 @@
 		B4803B2921D8BB330098FC64 /* AddLocationViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddLocationViewController.swift; sourceTree = "<group>"; };
 		B4803B2B21D8C2930098FC64 /* HeaderViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HeaderViewController.swift; sourceTree = "<group>"; };
 		B4803B2D21DA278D0098FC64 /* MapLocationViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapLocationViewController.swift; sourceTree = "<group>"; };
+		B4803B3221DBD2540098FC64 /* mapsLocationVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = mapsLocationVC.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -86,6 +88,7 @@
 				B4672FD021CD826D00ED11A2 /* Assets.xcassets */,
 				B4672FD221CD826D00ED11A2 /* LaunchScreen.storyboard */,
 				B4672FD521CD826D00ED11A2 /* Info.plist */,
+				B4803B3221DBD2540098FC64 /* mapsLocationVC.swift */,
 			);
 			path = OnTheMap;
 			sourceTree = "<group>";
@@ -180,6 +183,7 @@
 				B4803B2C21D8C2930098FC64 /* HeaderViewController.swift in Sources */,
 				B4672FE721D22DF900ED11A2 /* StudentsTableViewController.swift in Sources */,
 				B4803B2A21D8BB330098FC64 /* AddLocationViewController.swift in Sources */,
+				B4803B3321DBD2540098FC64 /* mapsLocationVC.swift in Sources */,
 				B4672FE021D0B36F00ED11A2 /* API.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

@@ -26,8 +26,6 @@ extension StudentsTableViewController: UITableViewDelegate, UITableViewDataSourc
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         // #warning Incomplete implementation, return the number of rows
-        print("counting ...")
-        print(result.count)
         return result.count
     }
     
@@ -39,4 +37,15 @@ extension StudentsTableViewController: UITableViewDelegate, UITableViewDataSourc
         cell.mediaURL.text = student.mediaURL
         return cell
     }
+    
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        let url = self.result[(indexPath).row].mediaURL
+        print("url is: \(String(describing: url))")
+        if let url = URL(string: url ?? " ")
+        {
+            UIApplication.shared.open(url)
+        }
+    }
 }
+
+

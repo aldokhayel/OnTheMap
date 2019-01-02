@@ -7,16 +7,21 @@
 //
 
 import Foundation
+import UIKit
+import CoreLocation
 
-class API {
+class API: NSObject {
     
-    static func login(_ email: String,_ password: String, completion: @escaping (Bool, Error?)->()) {
+    var accountKey: String? = nil
+    static let shared = API()
+    
+    func login(_ email: String,_ password: String, completion: @escaping (Bool, Error?)->()) {
         var request = URLRequest(url: URL(string: "https://onthemap-api.udacity.com/v1/session")!)
         request.httpMethod = "POST"
         request.addValue("application/json", forHTTPHeaderField: "Accept")
         request.addValue("application/json", forHTTPHeaderField: "Content-Type")
         request.httpBody = "{\"udacity\": {\"username\": \"\(email)\", \"password\": \"\(password)\"}}".data(using: .utf8)
-        
+
         let task = URLSession.shared.dataTask(with: request as URLRequest) { data, response, error in
             
             func dispalyError(_ error: String){
@@ -47,6 +52,7 @@ class API {
                 let accountRegister = dataDecoded.account.registered
                 let sessionID = dataDecoded.session.id
                 let sessionExpire = dataDecoded.session.expiration
+                self.accountKey = accountID
                 print(":: Authentication Information ::")
                 print("--------------------------")
                 print("The account ID: \(String(describing: accountID!))")
@@ -71,9 +77,9 @@ class API {
         print(error)
     }
     
-    static func getStudentsLocations(completion: @escaping ([StudentLocation]?, Error?)->()){
+    func getStudentsLocations(limit: Int = 100, skip: Int = 0, orderBy: Param = .updatedAt, completion: @escaping ([StudentLocation]?, Error?)->()){
         
-        let urlString = "https://parse.udacity.com/parse/classes/StudentLocation"
+        let urlString = "https://parse.udacity.com/parse/classes/StudentLocation?limit=\(limit)&skip=\(skip)"
         let url = URL(string: urlString)
         var request = URLRequest(url: url!)
         request.addValue("QrX47CA9cyuGewLdsL7o5Eb8iug6Em8ye0dnAbIr", forHTTPHeaderField: "X-Parse-Application-Id")
@@ -148,5 +154,100 @@ class API {
         }
         task.resume()
     }
+    
+    func getUser(completionHandlerForGet: @escaping (_ success: Bool, _ student: StudentLocation?, _ errorString: String?) -> Void){
+        if accountKey == nil {
+            completionHandlerForGet(false, nil, "could not find account key")
+            return
+        }
+        let urlString = "https://onthemap-api.udacity.com/v1/users/" + "\(String(describing: accountKey))"
+        let url = URL(string: urlString)
+        var request = URLRequest(url: url!)
+        request.httpMethod = "GET"
+        request.addValue("QrX47CA9cyuGewLdsL7o5Eb8iug6Em8ye0dnAbIr", forHTTPHeaderField: "X-Parse-Application-Id")
+        request.addValue("QuWThTdiRmTux3YaDseUSEpUKo7aBYM737yKd4gY", forHTTPHeaderField: "X-Parse-REST-API-Key")
+        let session = URLSession.shared
+        let task = session.dataTask(with: request) { data, response, error in
+            if error != nil { // Handle error
+                completionHandlerForGet(false, nil, error?.localizedDescription)
+                return
+            }
+            guard let data = data else {
+                completionHandlerForGet(false, nil, error?.localizedDescription)
+                return
+            }
+            guard let status = (response as? HTTPURLResponse)?.statusCode, status >= 200 && status <= 399 else {
+                completionHandlerForGet(false, nil, error?.localizedDescription)
+                return
+            }
+//            let range = Range(5..<data.count)
+//            let newData = data.subdata(in: range) /* subset response data! */
+            
+            do {
+                let decoder = JSONDecoder()
+                let decodedData = try! decoder.decode(StudentLocation.self, from: data)
+                var student = StudentLocation()
+                student.firstName = decodedData.firstName
+                student.lastName = decodedData.lastName
+                student.uniqueKey = self.accountKey
+                completionHandlerForGet(true, student, nil)
+            } catch let error {
+                print(error.localizedDescription)
+                completionHandlerForGet(false, nil, error.localizedDescription)
+                return
+            }
+            print(String(data: data, encoding: .utf8)!)
+        }
+        task.resume()
+    }
+
+    
+    func postStudent(_ student: StudentLocation, completionHandlerPost: @escaping (_ success: Bool, _ error: String?) -> Void) {
+        
+        let encoder = JSONEncoder()
+        let jsonData: Data
+        let encodedStudent = student
+        do {
+            jsonData = try encoder.encode(encodedStudent)
+        } catch let error {
+            print(error.localizedDescription)
+            return
+        }
+
+        var request = URLRequest(url: URL(string: "https://parse.udacity.com/parse/classes/StudentLocation")!)
+        request.httpMethod = "POST"
+        request.addValue("QrX47CA9cyuGewLdsL7o5Eb8iug6Em8ye0dnAbIr", forHTTPHeaderField: "X-Parse-Application-Id")
+        request.addValue("QuWThTdiRmTux3YaDseUSEpUKo7aBYM737yKd4gY", forHTTPHeaderField: "X-Parse-REST-API-Key")
+        request.addValue("application/json", forHTTPHeaderField: "Content-Type")
+        request.httpBody = jsonData
+//            "{\"uniqueKey\": \"\(student.uniqueKey)\", \"firstName\": \"\(student.firstName)\", \"lastName\": \"\(student.lastName)\",\"mapString\": \"\(student.mapString)\", \"mediaURL\": \"\(student.mediaURL)\",\"latitude\": \(student.latitude), \"longitude\": \(student.longitude)}".data(using: .utf8)
+        
+        let session = URLSession.shared
+        let task = session.dataTask(with: request) { data, response, error in
+            if error != nil { // Handle error…
+                completionHandlerPost(false, error?.localizedDescription)
+                return
+            }
+            guard let data = data else {
+                completionHandlerPost(false, error?.localizedDescription)
+                return
+            }
+            guard let status = (response as? HTTPURLResponse)?.statusCode, status >= 200 && status <= 399 else {
+                completionHandlerPost(false, error?.localizedDescription)
+                return
+            }
+            do {
+                let decoder = JSONDecoder()
+                let decodedData = try! decoder.decode(StudentLocation.self, from: data)
+                completionHandlerPost(true, nil)
+            } catch let error {
+                print(error.localizedDescription)
+                return
+            }
+            print(String(data: data, encoding: .utf8)!)
+        }
+        task.resume()
+    }
+    
     
 }

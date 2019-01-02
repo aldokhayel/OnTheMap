@@ -18,10 +18,19 @@ class LoginViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        emailTextField.delegate = self
+        passwordTextField.delegate = self
         emailTextField.borderStyle = .roundedRect
         passwordTextField.borderStyle = .roundedRect
         loginButton.layer.cornerRadius = 5
+        subscribeToNotification(UIResponder.keyboardWillShowNotification, selector: #selector(keyboardWillShow))
+        subscribeToNotification(UIResponder.keyboardWillHideNotification, selector: #selector(keyboardWillHide))
         // Do any additional setup after loading the view, typically from a nib.
+    }
+    
+    override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(animated)
+        unsubscribeFromAllNotifications()
     }
     
     @objc private func addLocation(_ sender: Any){
@@ -32,7 +41,7 @@ class LoginViewController: UIViewController {
     @IBAction func loginTapped(_ sender: Any){
 
         fieldsChecker()
-        API.login(emailTextField.text!, passwordTextField.text!) {(successful, error) in
+        API.shared.login(emailTextField.text!, passwordTextField.text!) {(successful, error) in
             DispatchQueue.main.async {
                 // for any error not expeceted
                 if let error = error {
@@ -45,7 +54,7 @@ class LoginViewController: UIViewController {
                 }
                 
                 // for invalid email or password
-                if !successful {
+                if successful {
                     let invalidAccessAlert = UIAlertController(title: "Invalid Access", message: "Invalid email or password", preferredStyle: .alert)
                     invalidAccessAlert.addAction(UIAlertAction(title: "OK", style: .default, handler: {_ in
                         return
@@ -80,3 +89,48 @@ class LoginViewController: UIViewController {
 }
 
 
+extension LoginViewController: UITextFieldDelegate {
+    
+    // MARK: UITextFieldDelegate
+    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
+        textField.endEditing(true)
+        textField.resignFirstResponder()
+        return true
+    }
+    
+    // MARK: Show/Hide Keyboard
+    
+    @objc func keyboardWillShow(_ notification: Notification) {
+        if keyboardHeight(notification) > 400 {
+        view.frame.origin.y = -keyboardHeight(notification)
+        }
+    }
+    
+    @objc func keyboardWillHide(_ notification: Notification) {
+        view.frame.origin.y = 0
+    }
+    
+    func keyboardHeight(_ notification: Notification) -> CGFloat {
+        let userInfo = (notification as NSNotification).userInfo
+        let keyboardSize = userInfo![UIResponder.keyboardFrameEndUserInfoKey] as! NSValue
+        return keyboardSize.cgRectValue.height
+    }
+    
+    func resignIfFirstResponder(_ textField: UITextField) {
+        if textField.isFirstResponder {
+            textField.resignFirstResponder()
+        }
+    }
+}
+
+
+private extension LoginViewController {
+    
+    func subscribeToNotification(_ notification: NSNotification.Name, selector: Selector) {
+        NotificationCenter.default.addObserver(self, selector: selector, name: notification, object: nil)
+    }
+    
+    func unsubscribeFromAllNotifications() {
+        NotificationCenter.default.removeObserver(self)
+    }
+}
