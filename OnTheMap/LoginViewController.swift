@@ -54,7 +54,7 @@ class LoginViewController: UIViewController {
                 }
                 
                 // for invalid email or password
-                if successful {
+                if !successful {
                     let invalidAccessAlert = UIAlertController(title: "Invalid Access", message: "Invalid email or password", preferredStyle: .alert)
                     invalidAccessAlert.addAction(UIAlertAction(title: "OK", style: .default, handler: {_ in
                         return
