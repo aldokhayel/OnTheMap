@@ -39,7 +39,7 @@ class MapViewController: HeaderViewController {
                 
                 StudentLocation.lastFetched = result
                 var map = [MKPointAnnotation]()
-
+                
                 for location in result! {
                     let long = CLLocationDegrees(location.longitude ?? 0.0)
                     let lat = CLLocationDegrees(location.latitude ?? 0.0)
@@ -61,7 +61,6 @@ class MapViewController: HeaderViewController {
 }
 
 
-
 extension MapViewController: MKMapViewDelegate {
     
     func mapView(_ mapView: MKMapView, viewFor annotation: MKAnnotation) -> MKAnnotationView? {
@@ -78,38 +77,26 @@ extension MapViewController: MKMapViewDelegate {
         return pinView
     }
     
-//    func mapView(_ mapView: MKMapView, annotationView view: MKAnnotationView, calloutAccessoryControlTapped control: UIControl) {
-//        if control == view.rightCalloutAccessoryView {
-//            let app = UIApplication.shared
-//            if let toOpen = view.annotation?.subtitle! {
-//                openUrlInSafari(url:url)
-//            }
-//        }
-//    }
-    
     func mapView(_ mapView: MKMapView, annotationView view: MKAnnotationView, calloutAccessoryControlTapped control: UIControl) {
         if control == view.rightCalloutAccessoryView {
             
             if let toOpen = view.annotation?.subtitle! {
                 guard let url = URL(string: toOpen) else {return}
                 openUrlInSafari(url:url)
-                
             }
         }
     }
     
     func mapView(mapView: MKMapView, annotationView: MKAnnotationView, calloutAccessoryControlTapped control: UIControl) {
-        
         if control == annotationView.rightCalloutAccessoryView {
             guard let newUrl = annotationView.annotation?.subtitle else {return}
             guard let stringUrl = newUrl else {return}
             guard let url = URL(string: stringUrl) else {return}
             openUrlInSafari(url:url)
-            
         }
     }
+    
     func openUrlInSafari(url:URL){
-        
         if url.absoluteString.contains("http://"){
             let svc = SFSafariViewController(url: url)
             present(svc, animated: true, completion: nil)
@@ -119,6 +106,4 @@ extension MapViewController: MKMapViewDelegate {
             }
         }
     }
-    
-    
 }

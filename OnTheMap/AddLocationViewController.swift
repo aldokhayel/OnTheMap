@@ -11,7 +11,7 @@ import MapKit
 import CoreLocation
 
 class AddLocationViewController: UIViewController {
-
+    
     @IBOutlet weak var locationName: UITextField!
     @IBOutlet weak var mediaURL: UITextField!
     @IBOutlet weak var findLocation: UIButton!
@@ -41,31 +41,28 @@ class AddLocationViewController: UIViewController {
     
     @IBAction func findLocationButton(_ sender: Any) {
         if locationName.text != "" && mediaURL.text != "" {
-        ActivityIndicator.startActivityIndicator(view: self.view )
-        
-        let searchRequest = MKLocalSearch.Request()
-        searchRequest.naturalLanguageQuery = locationName.text
-        
-        let activeSearch = MKLocalSearch(request: searchRequest)
-        
-        activeSearch.start { (response, error) in
-            DispatchQueue.main.async {
-
-            if error != nil {
-                ActivityIndicator.stopActivityIndicator()
-                
-                print("Location Error : \(error!.localizedDescription)")
-                //Alert.showBasicAlert(on: self, with: "Location Not Found")
-            }else {
-                ActivityIndicator.stopActivityIndicator()
-                
-                self.latitude = response?.boundingRegion.center.latitude
-                self.longitude = response?.boundingRegion.center.longitude
-                
-                self.performSegue(withIdentifier: "showLocation", sender: nil)
-            }
-            }
+            ActivityIndicator.startActivityIndicator(view: self.view )
             
+            let searchRequest = MKLocalSearch.Request()
+            searchRequest.naturalLanguageQuery = locationName.text
+            
+            let activeSearch = MKLocalSearch(request: searchRequest)
+            
+            activeSearch.start { (response, error) in
+                DispatchQueue.main.async {
+                    
+                    if error != nil {
+                        ActivityIndicator.stopActivityIndicator()
+                        print("Location Error : \(error!.localizedDescription)")
+                    }else {
+                        ActivityIndicator.stopActivityIndicator()
+                        
+                        self.latitude = response?.boundingRegion.center.latitude
+                        self.longitude = response?.boundingRegion.center.longitude
+                        
+                        self.performSegue(withIdentifier: "showLocation", sender: nil)
+                    }
+                }
             }
         } else {
             DispatchQueue.main.async {
@@ -73,24 +70,12 @@ class AddLocationViewController: UIViewController {
                 print("error")
             }
         }
-//        let studentLocation = StudentLocation(mapString: locationName, mediaURL: mediaURL)
-//            gecodeCoordinates(studentLocation)
     }
     
-
-    //_ studentLocation: StudentLocation
     func gecodeCoordinates(_ studentLocation: StudentLocation){
         
-        //UIApplication.shared.isNetworkActivityIndicatorVisible = true
         let ai = self.startAnActivityIndicator()
-
-        //UIApplication.shared.isNetworkActivityIndicatorVisible = true
-        //let ai = self.startAnActivityIndicator()
-        
         CLGeocoder().geocodeAddressString(studentLocation.mapString!) { (placeMarks, error) in
-            //DispatchQueue.main.async {
-            //DispatchQueue.main.asyncAfter(deadline: .now() + 0.3) {
-
             ai.stopAnimating()
             if error != nil {
                 print(error?.localizedDescription ?? " ")
@@ -106,68 +91,28 @@ class AddLocationViewController: UIViewController {
                 print("placeMarks is lower than zero!")
                 return
             }
-            //guard let firstLocation = placeMarks?.first?.location else {return}
-//            var location = studentLocation
-//            location.longitude = firstLocation.coordinate.longitude
-//            location.latitude = firstLocation.coordinate.latitude
-            let selectedLocation = placeMarks.first?.location?.coordinate
-//            let newMap = mapsLocationVC()
-//            newMap.selectedLocation = selectedLocation!
-//            newMap.locationTitle = studentLocation.mapString!
-//            newMap.url = self.mediaURL.text!
-//            print("selectedLocation: \(newMap.selectedLocation)")
-//            print("title: \(newMap.locationTitle)")
-//            print("url: \(newMap.url)")
-            //UIApplication.shared.isNetworkActivityIndicatorVisible = false
             
+            let selectedLocation = placeMarks.first?.location?.coordinate
             self.newLocation = studentLocation
             self.newLocation.latitude = selectedLocation?.latitude
             self.newLocation.longitude = selectedLocation?.longitude
-            //print("long2: \(self.newLocation.longitude)")
-            //self.navigationController?.pushViewController(newMap, animated: true)
             self.performSegue(withIdentifier: "mapsLocation", sender: self.newLocation)
-            //let mapVC = self.storyboard?.instantiateViewController(withIdentifier: "mapsLocation") as! UIViewController
-            //self.navigationController!.pushViewController(newMap, animated: true)
-            //self.present(mapVC, animated: true, completion: nil)
-            //}
         }
     }
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if segue.identifier == "showLocation" {
             let vc = segue.destination as! mapsLocationVC
-            print("long2:: \(self.latitude)")
             vc.mapString = locationName.text!
             vc.mediaURL = mediaURL.text!
             vc.latitude = self.latitude
             vc.longitude = self.longitude
-            
-            
-//            vc.selectedLocation.latitude = self.newLocation.latitude ?? 0.0
-//            vc.selectedLocation.longitude = self.newLocation.longitude ?? 0.0
-//            vc.url = self.newLocation.mediaURL ?? ""
-//            vc.locationTitle = self.newLocation.mapString ?? ""
-//            vc.selectedLocation = CLLocationCoordinate2D(latitude: self.newLocation.latitude ?? 0.0, longitude: self.newLocation.longitude ?? 0.0)
-//            vc.locationTitle = self.newLocation.mapString ?? " "
-//            vc.url = self.newLocation.mediaURL ?? ""
-            
-//            vc.selectedLocation.latitude = self.newLocation.latitude!
-//            vc.selectedLocation.longitude = self.newLocation.longitude!
-//            vc.location = (sender as! StudentLocation)
-//            vc.url = (sender as! StudentLocation).mediaURL!
-            //vc.location =
         }
     }
-    
-//    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-//        if segue.identifier == "mapLocation", let vc = segue.destination as? MapLocationViewController {
-//            vc.location = (sender as! StudentLocation)
-//        }
-//    }
 }
 
 extension AddLocationViewController: UITextFieldDelegate {
-        
+    
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
         textField.endEditing(true)
         textField.resignFirstResponder()
@@ -205,19 +150,6 @@ private extension AddLocationViewController {
         NotificationCenter.default.removeObserver(self)
     }
 }
-
-
-//extension UIViewController {
-//    func startAnActivityIndicator() -> UIActivityIndicatorView {
-//        let ai = UIActivityIndicatorView(style: .gray)
-//        self.view.addSubview(ai)
-//        self.view.bringSubviewToFront(ai)
-//        ai.center = self.view.center
-//        ai.hidesWhenStopped = true
-//        ai.startAnimating()
-//        return ai
-//    }
-//}
 
 extension UIViewController {
     func startAnActivityIndicator() -> UIActivityIndicatorView {
