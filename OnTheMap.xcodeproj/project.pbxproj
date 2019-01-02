@@ -22,6 +22,7 @@
 		B4803B2C21D8C2930098FC64 /* HeaderViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B4803B2B21D8C2930098FC64 /* HeaderViewController.swift */; };
 		B4803B2E21DA278D0098FC64 /* MapLocationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B4803B2D21DA278D0098FC64 /* MapLocationViewController.swift */; };
 		B4803B3321DBD2540098FC64 /* mapsLocationVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = B4803B3221DBD2540098FC64 /* mapsLocationVC.swift */; };
+		B4803B3521DCE5270098FC64 /* ActivityIndicator.swift in Sources */ = {isa = PBXBuildFile; fileRef = B4803B3421DCE5260098FC64 /* ActivityIndicator.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -42,6 +43,7 @@
 		B4803B2B21D8C2930098FC64 /* HeaderViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HeaderViewController.swift; sourceTree = "<group>"; };
 		B4803B2D21DA278D0098FC64 /* MapLocationViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapLocationViewController.swift; sourceTree = "<group>"; };
 		B4803B3221DBD2540098FC64 /* mapsLocationVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = mapsLocationVC.swift; sourceTree = "<group>"; };
+		B4803B3421DCE5260098FC64 /* ActivityIndicator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ActivityIndicator.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -89,6 +91,7 @@
 				B4672FD221CD826D00ED11A2 /* LaunchScreen.storyboard */,
 				B4672FD521CD826D00ED11A2 /* Info.plist */,
 				B4803B3221DBD2540098FC64 /* mapsLocationVC.swift */,
+				B4803B3421DCE5260098FC64 /* ActivityIndicator.swift */,
 			);
 			path = OnTheMap;
 			sourceTree = "<group>";
@@ -177,6 +180,7 @@
 				B4672FCA21CD826B00ED11A2 /* AppDelegate.swift in Sources */,
 				B4672FEB21D4CA2C00ED11A2 /* DataViewCell.swift in Sources */,
 				B4672FE321D0D95200ED11A2 /* StudentsLocations.swift in Sources */,
+				B4803B3521DCE5270098FC64 /* ActivityIndicator.swift in Sources */,
 				B4803B2E21DA278D0098FC64 /* MapLocationViewController.swift in Sources */,
 				B4672FDC21CE0C2800ED11A2 /* Authentication.swift in Sources */,
 				B4672FDE21D0A54800ED11A2 /* MapViewController.swift in Sources */,

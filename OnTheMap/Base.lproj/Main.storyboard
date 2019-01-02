@@ -344,7 +344,7 @@
                                 </state>
                                 <connections>
                                     <action selector="findLocationButton:" destination="SlN-SU-b67" eventType="touchUpInside" id="e8F-Cb-u5D"/>
-                                    <segue destination="TQ1-ty-OPu" kind="showDetail" identifier="mapsLocation" id="0Bp-Qq-IcW"/>
+                                    <segue destination="TQ1-ty-OPu" kind="show" identifier="showLocation" id="0Bp-Qq-IcW"/>
                                 </connections>
                             </button>
                             <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="Image" translatesAutoresizingMaskIntoConstraints="NO" id="dbp-c5-nBE">
@@ -466,8 +466,7 @@
                                     <color key="titleColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 </state>
                                 <connections>
-                                    <action selector="finishButton:" destination="TQ1-ty-OPu" eventType="touchUpInside" id="vRz-lz-ooU"/>
-                                    <action selector="finishTapped:" destination="TQ1-ty-OPu" eventType="touchUpInside" id="roH-Gl-Ayt"/>
+                                    <action selector="finishTapped:" destination="TQ1-ty-OPu" eventType="touchUpInside" id="RW0-jb-Lbf"/>
                                 </connections>
                             </button>
                         </subviews>
@@ -484,7 +483,6 @@
                         <viewLayoutGuide key="safeArea" id="xcO-sj-3M1"/>
                     </view>
                     <connections>
-                        <outlet property="finishButton" destination="egd-0n-17I" id="fy2-qk-khK"/>
                         <outlet property="mapView" destination="M20-tr-06l" id="0eA-oc-1ky"/>
                     </connections>
                 </viewController>

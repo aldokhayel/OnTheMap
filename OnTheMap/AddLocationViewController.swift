@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import MapKit
 import CoreLocation
 
 class AddLocationViewController: UIViewController {
@@ -15,6 +16,8 @@ class AddLocationViewController: UIViewController {
     @IBOutlet weak var mediaURL: UITextField!
     @IBOutlet weak var findLocation: UIButton!
     var newLocation = StudentLocation()
+    var latitude : Double?
+    var longitude : Double?
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -32,21 +35,53 @@ class AddLocationViewController: UIViewController {
         unsubscribeFromAllNotifications()
     }
     
-    @IBAction func findLocationButton(_ sender: Any) {
-        guard let locationName = locationName.text, let mediaURL = mediaURL.text, locationName != "", mediaURL != "" else {
-            return
-        }
-        let studentLocation = StudentLocation(mapString: locationName, mediaURL: mediaURL)
-            gecodeCoordinates(studentLocation)
-    }
-    
     @objc private func cancel(_ sender: Any){
         self.dismiss(animated: true, completion: nil)
     }
+    
+    @IBAction func findLocationButton(_ sender: Any) {
+        if locationName.text != "" && mediaURL.text != "" {
+        ActivityIndicator.startActivityIndicator(view: self.view )
+        
+        let searchRequest = MKLocalSearch.Request()
+        searchRequest.naturalLanguageQuery = locationName.text
+        
+        let activeSearch = MKLocalSearch(request: searchRequest)
+        
+        activeSearch.start { (response, error) in
+            DispatchQueue.main.async {
+
+            if error != nil {
+                ActivityIndicator.stopActivityIndicator()
+                
+                print("Location Error : \(error!.localizedDescription)")
+                //Alert.showBasicAlert(on: self, with: "Location Not Found")
+            }else {
+                ActivityIndicator.stopActivityIndicator()
+                
+                self.latitude = response?.boundingRegion.center.latitude
+                self.longitude = response?.boundingRegion.center.longitude
+                
+                self.performSegue(withIdentifier: "showLocation", sender: nil)
+            }
+            }
+            
+            }
+        } else {
+            DispatchQueue.main.async {
+                
+                print("error")
+            }
+        }
+//        let studentLocation = StudentLocation(mapString: locationName, mediaURL: mediaURL)
+//            gecodeCoordinates(studentLocation)
+    }
+    
+
     //_ studentLocation: StudentLocation
     func gecodeCoordinates(_ studentLocation: StudentLocation){
         
-        UIApplication.shared.isNetworkActivityIndicatorVisible = true
+        //UIApplication.shared.isNetworkActivityIndicatorVisible = true
         let ai = self.startAnActivityIndicator()
 
         //UIApplication.shared.isNetworkActivityIndicatorVisible = true
@@ -83,7 +118,7 @@ class AddLocationViewController: UIViewController {
 //            print("selectedLocation: \(newMap.selectedLocation)")
 //            print("title: \(newMap.locationTitle)")
 //            print("url: \(newMap.url)")
-            UIApplication.shared.isNetworkActivityIndicatorVisible = false
+            //UIApplication.shared.isNetworkActivityIndicatorVisible = false
             
             self.newLocation = studentLocation
             self.newLocation.latitude = selectedLocation?.latitude
@@ -99,18 +134,28 @@ class AddLocationViewController: UIViewController {
     }
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        if segue.identifier == "mapsLocation", let vc = segue.destination as? mapsLocationVC {
-            print("long2:: \(self.newLocation.longitude)")
-            vc.selectedLocation = CLLocationCoordinate2D(latitude: self.newLocation.latitude ?? 0.0, longitude: self.newLocation.longitude ?? 0.0)
-            vc.locationTitle = self.newLocation.mapString ?? " "
-            vc.url = self.newLocation.mediaURL ?? ""
+        if segue.identifier == "showLocation" {
+            let vc = segue.destination as! mapsLocationVC
+            print("long2:: \(self.latitude)")
+            vc.mapString = locationName.text!
+            vc.mediaURL = mediaURL.text!
+            vc.latitude = self.latitude
+            vc.longitude = self.longitude
+            
+            
+//            vc.selectedLocation.latitude = self.newLocation.latitude ?? 0.0
+//            vc.selectedLocation.longitude = self.newLocation.longitude ?? 0.0
+//            vc.url = self.newLocation.mediaURL ?? ""
+//            vc.locationTitle = self.newLocation.mapString ?? ""
+//            vc.selectedLocation = CLLocationCoordinate2D(latitude: self.newLocation.latitude ?? 0.0, longitude: self.newLocation.longitude ?? 0.0)
+//            vc.locationTitle = self.newLocation.mapString ?? " "
+//            vc.url = self.newLocation.mediaURL ?? ""
+            
 //            vc.selectedLocation.latitude = self.newLocation.latitude!
 //            vc.selectedLocation.longitude = self.newLocation.longitude!
 //            vc.location = (sender as! StudentLocation)
 //            vc.url = (sender as! StudentLocation).mediaURL!
             //vc.location =
-            
-           
         }
     }
     

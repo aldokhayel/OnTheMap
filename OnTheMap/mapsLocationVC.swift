@@ -19,6 +19,11 @@ class mapsLocationVC: UIViewController, MKMapViewDelegate {
     var locationTitle = ""
     var url = ""
     
+    var mapString:String?
+    var mediaURL:String?
+    var latitude:Double?
+    var longitude:Double?
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         print("\n-------------")
@@ -27,9 +32,30 @@ class mapsLocationVC: UIViewController, MKMapViewDelegate {
         print("locationTitle: \(locationTitle)")
         print("url: \(url)")
         mapView.delegate = self
-        self.loadPin()
+        //self.loadPin()
         let cancel = UIBarButtonItem(title: "Cancel", style: .plain, target: self, action: #selector(self.cancel(_:)))
         self.navigationItem.leftBarButtonItem = cancel
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(true)
+        createAnnotation()
+    }
+    
+    func createAnnotation(){
+        let annotation = MKPointAnnotation()
+        annotation.title = mapString!
+        annotation.subtitle = mediaURL!
+        annotation.coordinate = CLLocationCoordinate2DMake(latitude ?? 0.0, longitude ?? 0.0)
+        self.mapView.addAnnotation(annotation)
+        
+        
+        //zooming to location
+        let coredinate:CLLocationCoordinate2D = CLLocationCoordinate2DMake(latitude ?? 0.0, longitude ?? 0.0)
+        let span = MKCoordinateSpan(latitudeDelta: 0.1, longitudeDelta: 0.1)
+        let region = MKCoordinateRegion(center: coredinate, span: span)
+        self.mapView.setRegion(region, animated: true)
+        
     }
     
     @objc private func cancel(_ sender: Any){
@@ -57,8 +83,8 @@ class mapsLocationVC: UIViewController, MKMapViewDelegate {
     
     @IBAction func finishTapped(_ sender: Any) {
         API.shared.getUser { (success, student, errorMessage) in
-            
             if success {
+                print("student?.uniqueKey: \(student?.uniqueKey)")
                 DispatchQueue.main.async {
                     self.sendInformation(student!)
                 }
@@ -68,6 +94,12 @@ class mapsLocationVC: UIViewController, MKMapViewDelegate {
                 }
             }
         }
+        print("finish tapped")
+//        DispatchQueue.main.async {
+//            if let navigationController = self.navigationController {
+//                navigationController.popToRootViewController(animated: true)
+//            }
+//        }
     }
     
     func sendInformation(_ student: StudentLocation){
@@ -91,5 +123,37 @@ class mapsLocationVC: UIViewController, MKMapViewDelegate {
             }
         }
     }
+    
+//    func postNewStudentLocation(){
+//
+//        if let nickname = OTMUdacityClient.sharedInstance().nickname {
+//            var components = nickname.components(separatedBy: " ")
+//            if(components.count > 0)
+//            {
+//                let firstName = components.removeFirst()
+//                let lastName = components.joined(separator: " ")
+//
+//
+//                let jsonBody = StudentLocationsBody(uniqueKey:OTMUdacityClient.sharedInstance().userID! , firstName:firstName, lastName:lastName ,mapString:mapString!,mediaURL:mediaURL! ,latitude:latitude! , longitude:longitude!)
+//
+//
+//                OTMParseClient.sharedInstance().postUserLocation(jsonBody: jsonBody) { (success, errorString) in
+//
+//                    if success {
+//                        print(success)
+//
+//                        self.returnBackToRoot()
+//
+//                    }else {
+//                        Alert.showBasicAlert(on: self, with: errorString!.localizedCapitalized)
+//                    }
+//
+//                }
+//            }
+//
+//        }
+//
+//
+//    }
 }
 

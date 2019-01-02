@@ -12,7 +12,18 @@ import CoreLocation
 
 class API: NSObject {
     
-    var accountKey: String? = nil
+    var accountKey: String = ""
+    var createdAt : String = ""
+    var firstName : String = ""
+    var lastName : String = ""
+    var latitude : Double = 0.0
+    var longitude : Double = 0.0
+    var mapString : String = ""
+    var mediaURL : String = ""
+    var objectId : String = ""
+    var uniqueKey : String = ""
+    var updatedAt : String = ""
+    
     static let shared = API()
     
     func login(_ email: String,_ password: String, completion: @escaping (Bool, Error?)->()) {
@@ -52,7 +63,8 @@ class API: NSObject {
                 let accountRegister = dataDecoded.account.registered
                 let sessionID = dataDecoded.session.id
                 let sessionExpire = dataDecoded.session.expiration
-                self.accountKey = accountID
+                self.accountKey = accountID ?? ""
+                //self.firstName = dataDecoded.account
                 print(":: Authentication Information ::")
                 print("--------------------------")
                 print("The account ID: \(String(describing: accountID!))")
@@ -160,8 +172,10 @@ class API: NSObject {
             completionHandlerForGet(false, nil, "could not find account key")
             return
         }
-        let urlString = "https://onthemap-api.udacity.com/v1/users/" + "\(String(describing: accountKey))"
+        let urlString = "https://onthemap-api.udacity.com/v1/users/\(accountKey)"
         let url = URL(string: urlString)
+        print("account key: \(accountKey)")
+        print("url is: \(url!)")
         var request = URLRequest(url: url!)
         request.httpMethod = "GET"
         request.addValue("QrX47CA9cyuGewLdsL7o5Eb8iug6Em8ye0dnAbIr", forHTTPHeaderField: "X-Parse-Application-Id")
@@ -180,12 +194,14 @@ class API: NSObject {
                 completionHandlerForGet(false, nil, error?.localizedDescription)
                 return
             }
-//            let range = Range(5..<data.count)
-//            let newData = data.subdata(in: range) /* subset response data! */
-            
+            print(String(data: data, encoding: .utf8))
+            let range = Range(5..<data.count)
+            let newData = data.subdata(in: range) /* subset response data! */
+            print("--------------")
+            print(String(data: newData, encoding: .utf8))
             do {
                 let decoder = JSONDecoder()
-                let decodedData = try! decoder.decode(StudentLocation.self, from: data)
+                let decodedData = try! decoder.decode(StudentLocation.self, from: newData)
                 var student = StudentLocation()
                 student.firstName = decodedData.firstName
                 student.lastName = decodedData.lastName
@@ -206,9 +222,8 @@ class API: NSObject {
         
         let encoder = JSONEncoder()
         let jsonData: Data
-        let encodedStudent = student
         do {
-            jsonData = try encoder.encode(encodedStudent)
+            jsonData = try encoder.encode(student)
         } catch let error {
             print(error.localizedDescription)
             return

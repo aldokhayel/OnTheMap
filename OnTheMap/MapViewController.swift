@@ -8,14 +8,16 @@
 
 import UIKit
 import MapKit
+import SafariServices
 
-class MapViewController: HeaderViewController, MKMapViewDelegate {
+
+class MapViewController: HeaderViewController {
     
     @IBOutlet weak var mapView: MKMapView!
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        //mapView.delegate = self
+        mapView.delegate = self
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -56,6 +58,11 @@ class MapViewController: HeaderViewController, MKMapViewDelegate {
             }
         }
     }
+}
+
+
+
+extension MapViewController: MKMapViewDelegate {
     
     func mapView(_ mapView: MKMapView, viewFor annotation: MKAnnotation) -> MKAnnotationView? {
         let reuseid = "pin"
@@ -71,12 +78,47 @@ class MapViewController: HeaderViewController, MKMapViewDelegate {
         return pinView
     }
     
+//    func mapView(_ mapView: MKMapView, annotationView view: MKAnnotationView, calloutAccessoryControlTapped control: UIControl) {
+//        if control == view.rightCalloutAccessoryView {
+//            let app = UIApplication.shared
+//            if let toOpen = view.annotation?.subtitle! {
+//                openUrlInSafari(url:url)
+//            }
+//        }
+//    }
+    
     func mapView(_ mapView: MKMapView, annotationView view: MKAnnotationView, calloutAccessoryControlTapped control: UIControl) {
         if control == view.rightCalloutAccessoryView {
-            let app = UIApplication.shared
+            
             if let toOpen = view.annotation?.subtitle! {
-                app.open(URL(string: toOpen)!, options: [:], completionHandler: nil)
+                guard let url = URL(string: toOpen) else {return}
+                openUrlInSafari(url:url)
+                
             }
         }
     }
+    
+    func mapView(mapView: MKMapView, annotationView: MKAnnotationView, calloutAccessoryControlTapped control: UIControl) {
+        
+        if control == annotationView.rightCalloutAccessoryView {
+            guard let newUrl = annotationView.annotation?.subtitle else {return}
+            guard let stringUrl = newUrl else {return}
+            guard let url = URL(string: stringUrl) else {return}
+            openUrlInSafari(url:url)
+            
+        }
+    }
+    func openUrlInSafari(url:URL){
+        
+        if url.absoluteString.contains("http://"){
+            let svc = SFSafariViewController(url: url)
+            present(svc, animated: true, completion: nil)
+        }else {
+            DispatchQueue.main.async {
+                print("could not open url")
+            }
+        }
+    }
+    
+    
 }
